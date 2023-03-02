@@ -48,13 +48,17 @@ resource "aws_eks_cluster" "this" {
     ip_family         = var.ip_family
   }
   
-  encryption_config {
-     provider {
-      key_arn = var.kms_key_arn
-     }
-     resources=["secrets"]
+  dynamic "encryption_config" {
+    # Not available on Outposts
+    for_each = var.enable_cluster_encryption_config ? [var.cluster_encryption_config] : []
+
+    content {
+      provider {
+        key_arn = var.create_kms_key ? module.kms.key_arn : encryption_config.value.provider_key_arn
+      }
+      resources = encryption_config.value.resources
+    }
   }
-  
 
 
   timeouts {
