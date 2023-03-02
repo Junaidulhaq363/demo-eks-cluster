@@ -63,8 +63,8 @@ resource "aws_eks_cluster" "this" {
   enabled_cluster_log_types = var.enabled_cluster_log_types
   depends_on = [
     aws_iam_role_policy_attachment.ClusterPolicy,
-    aws_iam_role_policy_attachment.VPCResourceControllerPolicy,
-      aws_kms_key.example_key
+    aws_iam_role_policy_attachment.VPCResourceControllerPolicy
+   
   ]
   tags = var.tags
 }
