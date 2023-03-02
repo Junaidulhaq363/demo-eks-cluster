@@ -175,3 +175,9 @@ variable "tags" {
   description = "Tags"
   type        = map(string)
 }
+
+variable "kms_key_arn" {
+  description = "Determines whether iam role arn is created by this module for the cluster. If not, AWS will automatically create one if logging is enabled"
+  type        = string
+  default     = null
+}
