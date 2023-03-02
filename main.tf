@@ -1,5 +1,3 @@
-
-
 locals {
   cluster_sg_name           = coalesce(var.cluster_security_group_name, "${var.cluster_name}")
   cluster_security_group_id = var.cluster_security_group_id == "" ? aws_security_group.this[0].id : var.cluster_security_group_id
@@ -52,7 +50,7 @@ resource "aws_eks_cluster" "this" {
   
   encryption_config {
      provider {
-      key_arn = aws_kms_key.example_key.arn 
+      key_arn = var.kms_key_arn
      }    
   }
 
