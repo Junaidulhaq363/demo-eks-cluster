@@ -50,7 +50,9 @@ resource "aws_eks_cluster" "this" {
     ip_family         = var.ip_family
   }
   encryption_config{
-    key_arn=var.kms_key_arn
+     provider {
+        key_arn = var.kms_key_arn
+      }
   }
 
   timeouts {
