@@ -52,7 +52,7 @@ resource "aws_eks_cluster" "this" {
   
   encryption_config {
      provider {
-      key_arn = aws_kms_key.example_key.arn      }
+      key_arn = aws_kms_key.example_key.arn     
   }
 
   timeouts {
