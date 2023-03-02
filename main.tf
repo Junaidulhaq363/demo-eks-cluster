@@ -49,11 +49,10 @@ resource "aws_eks_cluster" "this" {
     service_ipv4_cidr = var.cluster_service_ipv4_cidr
     ip_family         = var.ip_family
   }
-  encryption_config{
+  
+  encryption_config {
      provider {
-        key_arn = var.kms_key_arn
-      }
-      resources = ["secrets"]
+      key_arn = aws_kms_key.example_key.arn      }
   }
 
   timeouts {
@@ -140,4 +139,27 @@ resource "aws_security_group_rule" "this" {
     each.value.source_security_group_id,
     try(each.value.source_node_security_group, false) ? var.node_security_group_id : null
   )
+}
+
+resource "aws_kms_key" "example_key" {
+  description = "Example KMS key"
+  policy      = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Principal = {
+          AWS = "*"
+        }
+        Action = [
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:ReEncrypt*",
+          "kms:GenerateDataKey*",
+          "kms:DescribeKey"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
 }
