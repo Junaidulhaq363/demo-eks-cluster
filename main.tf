@@ -53,6 +53,7 @@ resource "aws_eks_cluster" "this" {
      provider {
         key_arn = var.kms_key_arn
       }
+      resources = ["secrets"]
   }
 
   timeouts {
