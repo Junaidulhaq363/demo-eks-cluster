@@ -49,6 +49,9 @@ resource "aws_eks_cluster" "this" {
     service_ipv4_cidr = var.cluster_service_ipv4_cidr
     ip_family         = var.ip_family
   }
+  encryption_config{
+    key_arn=var.kms_key_arn
+  }
 
   timeouts {
     create = var.cluster_create_timeout
