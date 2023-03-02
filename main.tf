@@ -53,6 +53,7 @@ resource "aws_eks_cluster" "this" {
       key_arn = var.kms_key_arn
      }
      resources="*"
+  }
   
 
 
