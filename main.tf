@@ -73,9 +73,9 @@ resource "aws_eks_cluster" "this" {
 
     content {
       provider {
-        key_arn = encryption_config.value.provider_key_arn
+        provider_key_arn = encryption_config.value.provider_key_arn
       }
-      resources = encryption_config.value.resources
+      resources = [encryption_config.value.resources]
     }
   }
 
