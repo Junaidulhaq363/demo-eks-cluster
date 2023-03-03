@@ -48,25 +48,7 @@ resource "aws_eks_cluster" "this" {
     ip_family         = var.ip_family
   }
   
-# encryption_config = {
-#     resources        = ["secrets"]
-#     provider_key_arn = var.kms_arn
-#   }
 
-  # cluster_encryption_config = {
-  #   resources        = ["secrets"]
-  #   provider_key_arn = var.cluster_encryption_config_enabled ? var.kms_key_arn : false
-  # }
-
-# dynamic "encryption_config" {
-#     for_each = var.cluster_encryption_config_enabled ? var.cluster_encryption_config : []
-#     content {
-#       resources = lookup(encryption_config.value, "resources")
-#       provider {
-#         key_arn = lookup(encryption_config.value, "provider_key_arn")
-#       }
-#     }
-#   }
 
  dynamic "encryption_config" {
     for_each = toset(var.cluster_encryption_config)
