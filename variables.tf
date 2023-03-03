@@ -179,7 +179,7 @@ variable "tags" {
 variable "kms_key_arn" {
   description = "Determines whether iam role arn is created by this module for the cluster. If not, AWS will automatically create one if logging is enabled"
   type        = string
-  default     = null
+  default     = "arn:aws:kms:ap-south-1:145234284021:key/71a9a4ba-0bf2-4009-a162-e84defc25da8"
 }
 
 variable "enable_cluster_encryption_config" {
@@ -187,10 +187,10 @@ variable "enable_cluster_encryption_config" {
   type        = bool
   default     = true
 }
-variable "cluster_encryption_config" {
-  description = "Configuration block with encryption configuration for the cluster"
-  type        = any
-  default = {
-    resources = ["secrets"]
-  }
-}
+# variable "cluster_encryption_config" {
+#   description = "Configuration block with encryption configuration for the cluster"
+#   type        = any
+#   default = {
+#     resources = ["secrets"]
+#   }
+# }
