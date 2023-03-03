@@ -207,3 +207,10 @@ variable "cluster_encryption_config" {
   type        = bool
   default     = null
 }
+
+
+variable "cluster_encryption_config" {
+  description = "Configuration block with encryption configuration for the cluster"
+  type        = list(any)
+  default     = []
+}

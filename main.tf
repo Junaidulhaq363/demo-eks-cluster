@@ -58,13 +58,24 @@ resource "aws_eks_cluster" "this" {
   #   provider_key_arn = var.cluster_encryption_config_enabled ? var.kms_key_arn : false
   # }
 
-dynamic "encryption_config" {
-    for_each = var.cluster_encryption_config_enabled ? var.cluster_encryption_config : []
+# dynamic "encryption_config" {
+#     for_each = var.cluster_encryption_config_enabled ? var.cluster_encryption_config : []
+#     content {
+#       resources = lookup(encryption_config.value, "resources")
+#       provider {
+#         key_arn = lookup(encryption_config.value, "provider_key_arn")
+#       }
+#     }
+#   }
+
+ dynamic "encryption_config" {
+    for_each = toset(var.cluster_encryption_config)
+
     content {
-      resources = lookup(encryption_config.value, "resources")
       provider {
-        key_arn = lookup(encryption_config.value, "provider_key_arn")
+        key_arn = encryption_config.value.provider_key_arn
       }
+      resources = encryption_config.value.resources
     }
   }
 
@@ -156,25 +167,3 @@ resource "aws_security_group_rule" "this" {
   )
 }
 
-# resource "aws_kms_key" "example_key" {
-#   description = "Example KMS key"
-#   policy      = jsonencode({
-#     Version = "2012-10-17"
-#     Statement = [
-#       {
-#         Effect   = "Allow"
-#         Principal = {
-#           AWS = "*"
-#         }
-#         Action = [
-#           "kms:Encrypt",
-#           "kms:Decrypt",
-#           "kms:ReEncrypt*",
-#           "kms:GenerateDataKey*",
-#           "kms:DescribeKey"
-#         ]
-#         Resource = "*"
-#       }
-#     ]
-#   })
-# }
