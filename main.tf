@@ -53,11 +53,21 @@ resource "aws_eks_cluster" "this" {
 #     provider_key_arn = var.kms_arn
 #   }
 
-  cluster_encryption_config = {
-    resources        = ["secrets"]
-    provider_key_arn = var.cluster_encryption_config_enabled ? var.kms_key_arn : false
-  }
+  # cluster_encryption_config = {
+  #   resources        = ["secrets"]
+  #   provider_key_arn = var.cluster_encryption_config_enabled ? var.kms_key_arn : false
+  # }
 
+dynamic "encryption_config" {
+    for_each = var.cluster_encryption_config_enabled ? true : []
+
+    content {
+      provider {
+        key_arn = var.kms_key_arn #? module.kms.key_arn : encryption_config.value.provider_key_arn
+      }
+      resources = ["secrets"]
+    }
+  }
 
 
 
