@@ -59,7 +59,7 @@ resource "aws_eks_cluster" "this" {
   # }
 
 dynamic "encryption_config" {
-    for_each = var.cluster_encryption_config_enabled ? [var.cluster_encryption_config] : []
+    for_each = var.cluster_encryption_config_enabled ? var.cluster_encryption_config : []
     content {
       resources = lookup(encryption_config.value, "resources")
       provider {
