@@ -59,16 +59,14 @@ resource "aws_eks_cluster" "this" {
   # }
 
 dynamic "encryption_config" {
-    for_each = var.cluster_encryption_config_enabled ? true : false
-
+    for_each = var.cluster_encryption_config_enabled ? [var.cluster_encryption_config] : []
     content {
+      resources = lookup(encryption_config.value, "resources")
       provider {
-        key_arn = var.kms_key_arn #? module.kms.key_arn : encryption_config.value.provider_key_arn
+        key_arn = lookup(encryption_config.value, "provider_key_arn")
       }
-      resources = ["secrets"]
     }
   }
-
 
 
   timeouts {
