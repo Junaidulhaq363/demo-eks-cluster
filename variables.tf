@@ -187,10 +187,10 @@ variable "enable_cluster_encryption_config" {
   type        = bool
   default     = true
 }
-# variable "cluster_encryption_config" {
-#   description = "Configuration block with encryption configuration for the cluster"
-#   type        = any
-#   default = {
-#     resources = ["secrets"]
-#   }
-# }
+variable "cluster_encryption_config" {
+  description = "Configuration block with encryption configuration for the cluster"
+  type        = any
+  default = {
+    resources = ["secrets"]
+  }
+}
